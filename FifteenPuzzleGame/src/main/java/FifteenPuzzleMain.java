@@ -1,3 +1,9 @@
+/*
+ * Name:  Kanykei Akmatova
+ * Date: 'May 6, 2022'
+ * Description: My implementation of Fifteen Puzzle Game for my study purpose.
+ */
+
 import javax.swing.*;
 import java.awt.*;
 
