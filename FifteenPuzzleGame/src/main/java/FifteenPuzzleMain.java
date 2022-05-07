@@ -20,5 +20,9 @@ public class FifteenPuzzleMain {
         gameFrame.setLayout(null);
         gameFrame.setVisible(true);
         gameFrame.setResizable(false);
+
+        FifteenPuzzleGame fifteenPuzzleGame = new FifteenPuzzleGame();
+        fifteenPuzzleGame.newGame();
+        int[][] board = fifteenPuzzleGame.getBoard();
     }
 }
