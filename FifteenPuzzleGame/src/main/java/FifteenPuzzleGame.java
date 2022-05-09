@@ -15,14 +15,15 @@ public class FifteenPuzzleGame {
     public FifteenPuzzleGame(){
     }
 
-    public static void newGame() {
+    public FifteenPuzzleGame newGame() {
         do {
             reset(); // reset to initial state
             shuffle(); // shuffle tiles on the board
         } while(!isSolvable()); // make it until board be solvable
+        return this;
     }
 
-    public static int[][] getBoard() {
+    public final int[][] getBoard() {
         return board;
     }
 

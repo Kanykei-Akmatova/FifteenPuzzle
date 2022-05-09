@@ -15,14 +15,24 @@ public class FifteenPuzzleMain {
 
         JFrame gameFrame = new JFrame();
 
-        gameFrame.setSize(400, 400);
+        gameFrame.setSize(425, 450);
         gameFrame.setIconImage(image);
         gameFrame.setLayout(null);
         gameFrame.setVisible(true);
         gameFrame.setResizable(false);
+        gameFrame.setTitle("Fifteen Puzzle");
 
         FifteenPuzzleGame fifteenPuzzleGame = new FifteenPuzzleGame();
-        fifteenPuzzleGame.newGame();
-        int[][] board = fifteenPuzzleGame.getBoard();
+        int[][] board = fifteenPuzzleGame.newGame().getBoard();
+
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                if(board[row][col] != 0) {
+                    JButton b = new JButton(String.valueOf(board[row][col]));
+                    b.setBounds(100 * row + 5, 100 * col + 5, 100, 100);
+                    gameFrame.add(b);
+                }
+            }
+        }
     }
 }
