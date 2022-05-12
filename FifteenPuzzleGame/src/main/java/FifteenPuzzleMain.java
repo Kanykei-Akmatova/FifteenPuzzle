@@ -6,6 +6,8 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class FifteenPuzzleMain {
     static final String pathToFrameIcon = "frame.png";
@@ -18,21 +20,36 @@ public class FifteenPuzzleMain {
         gameFrame.setSize(425, 450);
         gameFrame.setIconImage(image);
         gameFrame.setLayout(null);
-        gameFrame.setVisible(true);
+
         gameFrame.setResizable(false);
         gameFrame.setTitle("Fifteen Puzzle");
 
-        FifteenPuzzleGame fifteenPuzzleGame = new FifteenPuzzleGame();
-        int[][] board = fifteenPuzzleGame.newGame().getBoard();
+        FifteenPuzzleGame fifteenPuzzleGame = new FifteenPuzzleGame().newGame();
+
+        int[][] board = fifteenPuzzleGame.getBoard();
 
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
                 if(board[row][col] != 0) {
-                    JButton b = new JButton(String.valueOf(board[row][col]));
-                    b.setBounds(100 * row + 5, 100 * col + 5, 100, 100);
-                    gameFrame.add(b);
+                    JButton btn = new JButton(String.valueOf(board[row][col]));
+                    btn.setFont(new Font("Arial", Font.BOLD, 36));
+
+                    btn.setBounds(100 * col + 5, 100 * row + 5, 100, 100);
+                    btn.addActionListener( e-> {
+                        Rectangle bounds = btn.getBounds();
+                        int c = (int) ((bounds.getX() - 5) / 100);
+                        int r = (int) ((bounds.getY() - 5) / 100);
+
+                        int[] move = fifteenPuzzleGame.getMove(r,c);
+                        btn.setBounds(100 * move[1] + 5, 100 * move[0] + 5, 100, 100);
+                        gameFrame.revalidate();
+                    });
+                    gameFrame.add(btn);
                 }
             }
         }
+
+        gameFrame.setVisible(true);
+        gameFrame.revalidate();
     }
 }

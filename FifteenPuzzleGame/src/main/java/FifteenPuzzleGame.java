@@ -35,6 +35,35 @@ public class FifteenPuzzleGame {
         }
     }
 
+    public static int[] getMove(int row, int col) {
+        int nextRow = row;
+        int nextCol = col;
+
+        // Move down
+        if (row < 3 && board[row + 1][col] == 0) {
+            nextRow++;
+        }
+        // Move up
+        if (row > 0 && board[row - 1][col] == 0) {
+            nextRow--;
+        }
+        // Move right
+        if (col < 3 && board[row][col + 1] == 0) {
+            nextCol++;
+        }
+        // Move left
+        if (col > 0 && board[row][col - 1] == 0) {
+            nextCol--;
+        }
+        // Swap if possible
+        if(row != nextRow || col != nextCol) {
+            board[nextRow][nextCol] = board[row][col];
+            board[row][col] = 0;
+        }
+
+        return new int[]{nextRow, nextCol};
+    }
+
     private static boolean isOver() {
         int expectedTile = 1;
         for (int r = 0; r < nbInlineTiles; r++) {
