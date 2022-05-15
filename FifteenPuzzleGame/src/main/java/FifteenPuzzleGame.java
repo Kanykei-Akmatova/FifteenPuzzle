@@ -19,7 +19,7 @@ public class FifteenPuzzleGame {
         do {
             reset(); // reset to initial state
             shuffle(); // shuffle tiles on the board
-        } while(!isSolvable()); // make it until board be solvable
+        } while(isNotSolvable()); // make it until board be solvable
         return this;
     }
 
@@ -28,11 +28,7 @@ public class FifteenPuzzleGame {
     }
 
     private static void reset() {
-        for (int r = 0; r < nbInlineTiles; r++) {
-            for (int c = 0; c < nbInlineTiles; c++) {
-                board[r][c] = 0;
-            }
-        }
+        board = new int[nbInlineTiles][nbInlineTiles];
     }
 
     public static int[] getMove(int row, int col) {
@@ -64,7 +60,7 @@ public class FifteenPuzzleGame {
         return new int[]{nextRow, nextCol};
     }
 
-    private static boolean isOver() {
+    public static boolean isSolved() {
         int expectedTile = 1;
         for (int r = 0; r < nbInlineTiles; r++) {
             for (int c = 0; c < nbInlineTiles; c++) {
@@ -89,7 +85,7 @@ public class FifteenPuzzleGame {
     // Whenever a tile is preceded by a tile with higher value it counts
     // as an inversion. In our case, with the blank tile in the solved position,
     // the number of inversions must be even for the puzzle to be solvable
-    private static boolean isSolvable() {
+    private static boolean isNotSolvable() {
         int countInversions = 0;
         int[] tiles = new int[nbTiles];
 

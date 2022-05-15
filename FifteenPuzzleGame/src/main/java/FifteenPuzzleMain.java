@@ -6,8 +6,6 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class FifteenPuzzleMain {
     static final String pathToFrameIcon = "frame.png";
@@ -24,8 +22,13 @@ public class FifteenPuzzleMain {
         gameFrame.setResizable(false);
         gameFrame.setTitle("Fifteen Puzzle");
 
-        FifteenPuzzleGame fifteenPuzzleGame = new FifteenPuzzleGame().newGame();
+        newGame(gameFrame);
+    }
 
+    private static void newGame(JFrame gameFrame) {
+        gameFrame.setVisible(false);
+        gameFrame.getContentPane().removeAll();
+        FifteenPuzzleGame fifteenPuzzleGame = new FifteenPuzzleGame().newGame();
         int[][] board = fifteenPuzzleGame.getBoard();
 
         for (int row = 0; row < 4; row++) {
@@ -43,6 +46,14 @@ public class FifteenPuzzleMain {
                         int[] move = fifteenPuzzleGame.getMove(r,c);
                         btn.setBounds(100 * move[1] + 5, 100 * move[0] + 5, 100, 100);
                         gameFrame.revalidate();
+
+                        if(fifteenPuzzleGame.isSolved()){
+                            int toContinue = showModal(gameFrame);
+                            if(toContinue == 0)
+                            {
+                                newGame(gameFrame);
+                            }
+                        }
                     });
                     gameFrame.add(btn);
                 }
@@ -51,5 +62,19 @@ public class FifteenPuzzleMain {
 
         gameFrame.setVisible(true);
         gameFrame.revalidate();
+    }
+
+    private static int showModal(JFrame gameFrame) {
+        Object[] options = {"Yes, please.", "No, thanks."};
+        int n = JOptionPane.showOptionDialog(gameFrame,
+                "Do you want to continue ?",
+                "Congratulation, you win !!!",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[1]);
+
+        return n;
     }
 }
