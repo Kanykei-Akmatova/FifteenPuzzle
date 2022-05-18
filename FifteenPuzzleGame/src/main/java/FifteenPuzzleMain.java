@@ -11,12 +11,9 @@ public class FifteenPuzzleMain {
     static final String pathToFrameIcon = "frame.png";
 
     public static void main(String[] args) {
-        Image image = IconLoader.getImage(pathToFrameIcon);
-
         JFrame gameFrame = new JFrame();
 
         gameFrame.setSize(425, 450);
-        gameFrame.setIconImage(image);
         gameFrame.setLayout(null);
 
         gameFrame.setResizable(false);
