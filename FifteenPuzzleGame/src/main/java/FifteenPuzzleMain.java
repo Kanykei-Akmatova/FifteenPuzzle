@@ -53,6 +53,9 @@ public class FifteenPuzzleMain {
                             {
                                 newGame(gameFrame);
                             }
+                            else {
+                                gameFrame.dispose();
+                            }
                         }
                     });
                     gameFrame.add(btn);

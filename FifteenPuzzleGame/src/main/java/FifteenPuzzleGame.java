@@ -7,9 +7,9 @@
 import java.util.Random;
 
 public class FifteenPuzzleGame {
-    private static final int nbTiles = 16;
-    private static final int nbInlineTiles = 4;
-    private static int[][] board = new int[nbInlineTiles][nbInlineTiles];
+    private static final int NB_TILES = 16;
+    private static final int NB_ROW_TILES = 4;
+    private static int[][] board = new int[NB_ROW_TILES][NB_ROW_TILES];
     private static final Random RANDOM = new Random();
 
     public FifteenPuzzleGame(){
@@ -19,7 +19,7 @@ public class FifteenPuzzleGame {
         do {
             reset(); // reset to initial state
             shuffle(); // shuffle tiles on the board
-        } while(isNotSolvable()); // make it until board be solvable
+        } while(!isSolvable()); // make it until board be solvable
         return this;
     }
 
@@ -28,7 +28,7 @@ public class FifteenPuzzleGame {
     }
 
     private static void reset() {
-        board = new int[nbInlineTiles][nbInlineTiles];
+        board = new int[NB_ROW_TILES][NB_ROW_TILES];
     }
 
     public static int[] getMove(int row, int col) {
@@ -62,10 +62,10 @@ public class FifteenPuzzleGame {
 
     public static boolean isSolved() {
         int expectedTile = 1;
-        for (int r = 0; r < nbInlineTiles; r++) {
-            for (int c = 0; c < nbInlineTiles; c++) {
+        for (int r = 0; r < NB_ROW_TILES; r++) {
+            for (int c = 0; c < NB_ROW_TILES; c++) {
                 // if it is the last cell of the board then we expect 0 value
-                if (r == nbInlineTiles - 1 && c == nbInlineTiles - 1) {
+                if (r == NB_ROW_TILES - 1 && c == NB_ROW_TILES - 1) {
                     expectedTile = 0;
                 }
 
@@ -81,40 +81,43 @@ public class FifteenPuzzleGame {
         return true;
     }
 
-    // There is only half permutations of the Fifteen Puzzle Game are solvable and w check it here.
-    // Whenever a tile is preceded by a tile with higher value it counts
-    // as an inversion. In our case, with the blank tile in the solved position,
-    // the number of inversions must be even for the puzzle to be solvable
-    private static boolean isNotSolvable() {
-        int countInversions = 0;
-        int[] tiles = new int[nbTiles];
+    public static int[] toOneRow(int[][] data) {
+        int[] oneRow = new int[data.length * data.length];
 
         int index = 0;
-        for (int r = 0; r < nbInlineTiles; r++) {
-            for (int c = 0; c < nbInlineTiles; c++) {
-                tiles[index] = board[r][c];
+        for (int row = 0; row < data.length; row++) {
+            for (int col = 0; col < data.length; col++) {
+                oneRow[index] = data[row][col];
                 index++;
             }
         }
 
-        for (int i = 0; i < nbTiles; i++) {
+        return oneRow;
+    }
+
+    private boolean isSolvable()
+    {
+        int countOfInversions = 0;
+
+        int[] tiles = toOneRow(board);
+        for (int i = 0; i < NB_TILES; i++) {
             for (int j = 0; j < i; j++) {
                 if (tiles[j] > tiles[i])
-                    countInversions++;
+                    countOfInversions++;
             }
         }
 
-        return countInversions % 2 == 0;
+        return countOfInversions % 2 == 0;
     }
 
     private static void shuffle() {
-        for (int index = 0; index < nbTiles; index++) {
-            int r = (int) (Math.random() * nbInlineTiles);
-            int c = (int) (Math.random() * nbInlineTiles);
+        for (int index = 0; index < NB_TILES; index++) {
+            int r = (int) (Math.random() * NB_ROW_TILES);
+            int c = (int) (Math.random() * NB_ROW_TILES);
 
             while (!(board[r][c] == 0)) {
-                r = (int) (Math.random() * nbInlineTiles);
-                c = (int) (Math.random() * nbInlineTiles);
+                r = (int) (Math.random() * NB_ROW_TILES);
+                c = (int) (Math.random() * NB_ROW_TILES);
             }
 
             board[r][c] = index;
